@@ -1,0 +1,38 @@
+---
+title: "Business Analytics 24/09"
+author: "Pratheek Sreerangam"
+date: "2022-09-24"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Scatterplot comparing prices and sales
+```{r}
+library(ISLR)
+data<- Carseats
+print(Carseats)
+
+plot(Carseats$Sales, Carseats$Price, main = "Scatterplot between Price and Sales", xlab = "Sales", ylab = "Price",abline(Carseats$Sales,Carseats$Price))
+barplot(Carseats$Price)
+```
+
+#maximum value of advertisement
+```{r}
+max(Carseats$Advertising)
+```
+
+#summary
+```{r}
+summary(data)
+```
+
+#Price interquartile range
+```{r}
+IQR(Carseats$Price)
+```
+
