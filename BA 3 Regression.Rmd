@@ -1,0 +1,95 @@
+---
+title: "BA assignment 3 Regression"
+author: "Pratheek Sreerangam"
+date: "2022-11-12"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1)
+```{r}
+set.seed(2017)
+X=runif(100)*10
+Y=X*4+3.45
+Y=rnorm(100)*0.29*Y+Y
+## a)
+cor(X,Y)
+plot(X,Y)
+##  Yes, we can fit a linear model with a positive correlation between y and x.
+## b)
+model<-lm(Y~X)
+summary(model)
+##   The accuracy of the above mentioned linear model is 65.17 percent, and the variability in y may be explained by x. 
+##   Y=3.6108X+4.4655 is the model's equation.
+## c)
+(cor(Y,X))^2
+##    The square of a correlation has more than one r-square.
+##    (Correlation Coefficient)^2=Coefficient of Determination      
+## d)
+hist(model$residuals,freq = FALSE,ylim = c(0,0.05))
+qqnorm(model$residuals,col="red")
+##  The linear model is acceptable since the above mentioned graph shows that residuals are typically distributed.
+```
+
+2a)
+```{r}
+head(mtcars)
+summary(lm(hp~wt,data=mtcars))
+summary(lm(hp~mpg,data=mtcars))
+## By looking at the numerous r-squared values, Chris is right mpg had a high r square value of 60% compared to wt of the car 43%.
+```
+
+2b)
+```{r}
+summary(model2<-lm(hp~cyl+mpg,data = mtcars))
+((model2$coefficients[2]*4)+model2$coefficients[1])+(model2$coefficients[3]*22)
+predict(model2,data.frame(cyl=4,mpg=22),interval = "prediction",level=0.85)
+```
+
+3a)
+```{r}
+library(mlbench)
+data(BostonHousing)
+hos<-lm(medv~crim+zn+ptratio+chas,data=BostonHousing)
+summary(hos)
+## Due to the model's extremely low R square value of 36%, it is not particularly accurate.
+```
+3bi)
+```{r}
+summary(hos1<-lm(medv~chas,data = BostonHousing))
+hos1$coefficients
+(hos1$coefficients[2]*0)+hos1$coefficients[1]
+(hos1$coefficients[2]*1)+hos1$coefficients[1]
+## The home with chas of 1 is more expensive than the house without chas of 0 with a value of 4.3 utilizing the correlation cofficients.
+```
+3bii)
+```{r}
+summary(hos2<-lm(medv~ptratio,data = BostonHousing))
+(hos2$coefficients[2]*15)+hos2$coefficients[1]
+(hos2$coefficients[2]*18)+hos2$coefficients[1]
+##Using the correlation coefficients, it can be seen that the house price declines as the ptratio rises because the coefficients are negative.
+## The cost of the home with the ptratio of 15 is more expensive than the cost of the house with the ptratio of 18 by 6.471.
+```
+
+3c)
+```{r}
+summary(hos)
+## If your p-value is low ( 0.05), you can reject the null hypothesis. The model summary shows that each independent variable is statistically significant.
+```
+
+3d)
+```{r}
+anova(hos)
+## by comparing the p values 
+## 1) crim
+## 2) ptratio
+## 3) zn
+## 4)chas
+```
+
